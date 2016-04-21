@@ -1,0 +1,82 @@
+import java.util.*;
+
+class ArrangeNumbers {
+    //Method for sorting the TreeMap based on values
+    public static <K, V extends Comparable<V>> Map<K, V>
+    sortByValues(final Map<K, V> map) {
+        Comparator<K> valueComparator =
+                new Comparator<K>() {
+                    public int compare(K k1, K k2) {
+                        int compare =
+                                map.get(k1).compareTo(map.get(k2));
+                        if (compare == 0)
+                            return 1;
+                        else
+                            return compare;
+                    }
+                };
+
+        Map<K, V> sortedByValues =
+                new TreeMap<K, V>(valueComparator);
+        sortedByValues.putAll(map);
+        return sortedByValues;
+    }
+
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String[] inputNumbers = input.nextLine().split(", ");
+        TreeMap<String, String> numbersAndNames = new TreeMap<String, String>();
+
+        for (String str : inputNumbers) {
+            numbersAndNames.put(str, new String());
+            StringBuilder name = new StringBuilder();
+            for (int i = 0; i < str.length(); i++) {
+                switch (str.charAt(i)) {
+                    case '0':
+                        name.append("zero");
+                        break;
+                    case '1':
+                        name.append("one");
+                        break;
+                    case '2':
+                        name.append("two");
+                        break;
+                    case '3':
+                        name.append("three");
+                        break;
+                    case '4':
+                        name.append("four");
+                        break;
+                    case '5':
+                        name.append("five");
+                        break;
+                    case '6':
+                        name.append("six");
+                        break;
+                    case '7':
+                        name.append("seven");
+                        break;
+                    case '8':
+                        name.append("eight");
+                        break;
+                    case '9':
+                        name.append("nine");
+                        break;
+                }
+            }
+            numbersAndNames.put(str, name.toString());
+        }
+        Map sortedMap = sortByValues(numbersAndNames);
+        Set set = sortedMap.entrySet();
+        Iterator i = set.iterator();
+        StringBuilder output = new StringBuilder();
+        char[] trimChars = new char[] {' ', ','};
+        while(i.hasNext()) {
+            Map.Entry me = (Map.Entry)i.next();
+            output.append(me.getKey() + ", ");
+        }
+        System.out.print(output.toString().replaceAll(", $", ""));
+    }
+}
+
+
