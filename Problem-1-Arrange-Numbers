@@ -1,6 +1,6 @@
 public import java.util.*;
 
-class ArrangeNumbers {
+public class ArrangeNumbers {
     //Method for sorting the TreeMap based on values
     public static <K, V extends Comparable<V>> Map<K, V>
     sortByValues(final Map<K, V> map) {
