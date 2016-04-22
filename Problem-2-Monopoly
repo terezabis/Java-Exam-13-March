@@ -1,0 +1,90 @@
+import java.util.Scanner;
+
+public class Monopoly {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String[] numbers = input.nextLine().split(" ");
+        int row = Integer.parseInt(numbers[0]);
+        int col = Integer.parseInt(numbers[1]);
+        int totalHotels = 0;
+        int money = 50;
+        int moneyForHotel = 0;
+        int turn = 0;
+        int spendMoney = 0;
+        String[] lines = new String[row];
+        for (int i = 0; i < row; i++) {
+            lines[i] = input.nextLine();
+        }
+        for (int r = 0; r < row; r++) {
+            if (r % 2 == 0) {
+                for (int c = 0; c < col; c++) {
+                    money += totalHotels * 10;
+                    switch (lines[r].charAt(c)) {
+                        case 'H':
+                            totalHotels++;
+                            moneyForHotel = money;
+                            money = 0;
+                            turn++;
+                            System.out.printf("Bought a hotel for %d. Total hotels: %d.\n", moneyForHotel, totalHotels);
+                            break;
+                        case 'F':
+                            turn++;
+                            break;
+                        case 'S':
+                            spendMoney = (r + 1) * (c + 1);
+                            if (spendMoney < money) {
+                                System.out.printf("Spent %d money at the shop.\n", spendMoney);
+                                money -= spendMoney;
+                                turn++;
+                            } else {
+                                System.out.printf("Spent %d money at the shop.\n", money);
+                                money = 0;
+                                turn++;
+                            }
+                            break;
+                        case 'J':
+                            System.out.printf("Gone to jail at turn %d.\n", turn);
+                            turn += 3;
+                            money += 2*(totalHotels * 10);
+                            break;
+                    }
+                }
+            } else {
+                for (int c = col - 1; c >= 0; c--) {
+                    money += totalHotels * 10;
+                    switch (lines[r].charAt(c)) {
+                        case 'H':
+                            totalHotels++;
+                            moneyForHotel = money;
+                            money = 0;
+                            turn++;
+                            System.out.printf("Bought a hotel for %d. Total hotels: %d.\n", moneyForHotel, totalHotels);
+                            break;
+                        case 'F':
+                            turn++;
+                            break;
+                        case 'S':
+                            spendMoney = (r + 1) * (c + 1);
+                            if (spendMoney < money) {
+                                System.out.printf("Spent %d money at the shop.\n", spendMoney);
+                                money -= spendMoney;
+                                turn++;
+                            } else {
+                                System.out.printf("Spent %d money at the shop.\n", money);
+                                money = 0;
+                                turn++;
+                            }
+                            break;
+                        case 'J':
+                            System.out.printf("Gone to jail at turn %d.\n", turn);
+                            turn += 3;
+                            money += 2*(totalHotels * 10);
+                            break;
+                    }
+                }
+            }
+        }
+        money += totalHotels * 10;
+        System.out.printf("Turns %d\nMoney %d", turn, money);
+    }
+}
