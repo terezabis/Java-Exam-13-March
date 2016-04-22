@@ -1,4 +1,4 @@
-import java.util.*;
+public import java.util.*;
 
 class ArrangeNumbers {
     //Method for sorting the TreeMap based on values
