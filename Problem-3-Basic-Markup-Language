@@ -1,0 +1,73 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.util.StringJoiner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class BasicMarkupLanguage {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        String tag = input.nextLine();
+        ArrayList<String> listTags = new ArrayList<>();
+        ArrayList<String> newList = new ArrayList<>();
+        while (!"<stop/>".equals(tag)) {
+            listTags.add(tag);
+            tag = input.nextLine();
+        }
+        //Pattern inverseReverse = Pattern.compile("([a-zA-Z]+) [a-zA-Z]+=\"(\\w+)");
+        //Pattern repeat = Pattern.compile("([a-zA-Z]+) [a-zA-Z]+=\"(\\w+)\" [a-z]+=\"(\\w+)");
+        Pattern patternType = Pattern.compile("(<)([a-zA-Z]+)");
+        Pattern patternWord = Pattern.compile("(t=\")(\\s?\\w+?.+|\\w)(\")");
+        Pattern patternValue = Pattern.compile("(e=\")(\\w+)");
+        String tagType = new String();
+        String wordName = new String();
+        int repeatWord = 0;
+        for (String tg : listTags) {
+            Matcher matchType = patternType.matcher(tg);
+            Matcher matchWord = patternWord.matcher(tg);
+            Matcher matchValue = patternValue.matcher(tg);
+            //
+
+            while (matchType.find() && matchWord.find()) {
+                tagType = matchType.group(2);
+                wordName = matchWord.group(2);
+            }
+            switch (tagType) {
+                case "inverse":
+                    String newString = "";
+
+                    for (int i = 0; i < wordName.length(); i++) {
+                        if (Character.isUpperCase(wordName.charAt(i))) {
+                            newString += Character.toLowerCase(wordName.charAt(i));
+                        } else if (Character.isLowerCase(wordName.charAt(i))) {
+                            newString += Character.toUpperCase(wordName.charAt(i));
+                        } else {
+                            newString += wordName.charAt(i);
+                        }
+                    }
+                    newList.add(newString);
+                    break;
+                case "reverse":
+                    String reversedString = "";
+                    for (int i = wordName.length(); i > 0; i--) {
+                        reversedString += wordName.charAt(i - 1);
+                    }
+                    newList.add(reversedString);
+                    break;
+                case "repeat":
+                    while (matchValue.find()) {
+                        repeatWord = Integer.parseInt(matchValue.group(2));
+                    }
+                    for (int i = 0; i < repeatWord; i++) {
+                        newList.add(wordName);
+                    }
+                    break;
+            }
+        }
+        int row = 1;
+        for (String l : newList){
+            System.out.printf("%d. %s\n", row, l);
+            row++;
+        }
+    }
+}
